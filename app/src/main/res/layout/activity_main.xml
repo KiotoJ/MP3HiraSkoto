@@ -12,9 +12,9 @@
         android:orientation="vertical">
 
         <ListView
+            android:id="@+id/listra_hira"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
         </ListView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

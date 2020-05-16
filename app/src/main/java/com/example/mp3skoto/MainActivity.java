@@ -6,6 +6,10 @@ import androidx.appcompat.widget.SearchView;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,6 +18,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final Mp3Activity mp3 = new Mp3Activity();
+        String[] listraLohatenyMp3 = mp3.getAllMp3(getAssets());
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listraLohatenyMp3);
+        final ListView listraHiraMp3 = (ListView) findViewById(R.id.listra_hira);
+
+        listraHiraMp3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "Henoy ary...", Toast.LENGTH_SHORT).show();
+                String hiraVoatsindry = (String) listraHiraMp3.getItemAtPosition(position);
+                mp3.playMp3(getAssets(), hiraVoatsindry);
+            }
+        });
+
+        listraHiraMp3.setAdapter(adapter);
     }
 
     @Override
