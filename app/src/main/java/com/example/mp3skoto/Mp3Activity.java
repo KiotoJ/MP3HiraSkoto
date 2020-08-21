@@ -3,6 +3,8 @@ package com.example.mp3skoto;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,16 +28,18 @@ public class Mp3Activity {
 
     public void playMp3(AssetManager am, String pathMp3) {
         MediaPlayer mp = new MediaPlayer();
-        if (mp != null && mp.isPlaying()) {
-            mp.stop();
+        if (mp.isPlaying()) {
+            mp.pause();
         }
-        try {
-            AssetFileDescriptor afd = am.openFd("hira/"+pathMp3);
-            mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-            mp.prepare();
-            mp.start();
-        } catch (IOException e) {
-            e.printStackTrace();
+        else{
+            try {
+                AssetFileDescriptor afd = am.openFd("hira/"+pathMp3);
+                mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                mp.prepare();
+                mp.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

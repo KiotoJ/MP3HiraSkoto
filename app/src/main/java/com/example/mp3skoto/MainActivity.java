@@ -8,9 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,19 +24,18 @@ public class MainActivity extends AppCompatActivity {
 
         final Mp3Activity mp3 = new Mp3Activity();
         String[] listraLohatenyMp3 = mp3.getAllMp3(getAssets());
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listraLohatenyMp3);
+        //ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.layout_list_view, R.id.titra_text, listraLohatenyMp3);
         final ListView listraHiraMp3 = (ListView) findViewById(R.id.listra_hira);
 
         listraHiraMp3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Henoy ary...", Toast.LENGTH_SHORT).show();
-                String hiraVoatsindry = (String) listraHiraMp3.getItemAtPosition(position);
-                mp3.playMp3(getAssets(), hiraVoatsindry);
+
+                Toast.makeText(getApplicationContext(), "Vonona ary...", Toast.LENGTH_SHORT).show();
             }
         });
 
-        listraHiraMp3.setAdapter(adapter);
+        listraHiraMp3.setAdapter(new Mp3Adapter(this, new ArrayList<String>(Arrays.asList(listraLohatenyMp3))));
     }
 
     @Override
