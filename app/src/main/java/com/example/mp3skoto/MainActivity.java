@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -42,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate( R.menu.item, menu);
 
-        MenuItem myActionMenuItem = menu.findItem( R.id.act_cherch);
-       final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
+        MenuItem searchMenuItem = menu.findItem( R.id.act_cherch);
+        MenuItem quitMenuItem = menu.findItem( R.id.quit);
+       final SearchView searchView = (SearchView) searchMenuItem.getActionView();
 
        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
            @Override
@@ -58,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
                return true;
            }
        });
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.quit:
+                System.exit(0);
+        }
         return true;
     }
 }
