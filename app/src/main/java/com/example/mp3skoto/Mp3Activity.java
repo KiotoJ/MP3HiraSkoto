@@ -1,6 +1,7 @@
 package com.example.mp3skoto;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -11,6 +12,7 @@ import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 
@@ -51,16 +53,18 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
         return allMp3;
     }
 
-    public void playMp3(AssetManager am, String pathMp3) {
+    public void playMp3(AssetManager am, String pathMp3, ImageButton btn_play) {
+
         if (mediaPlayer.isPlaying()) {
-            //mp.pause();
             pauseMedia();
+            btn_play.setImageResource(R.drawable.play);
         }
         else{
             try {
                 if(resumePosition > 0) {
                     resumeMedia();
-                } else {
+                }
+                else {
                     AssetFileDescriptor afd = am.openFd("hira/"+pathMp3);
                     mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                     mediaPlayer.prepare();
@@ -69,6 +73,7 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            btn_play.setImageResource(R.drawable.pause);
         }
     }
 
@@ -119,6 +124,17 @@ public class Mp3Activity extends Service implements MediaPlayer.OnCompletionList
             mediaPlayer.seekTo(resumePosition);
             mediaPlayer.start();
         }
+    }
+
+    private boolean requestAudioFocus() {
+            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                //Focus gained
+                return true;
+            }
+        //Could not gain focus
+        return false;
     }
 
     @Nullable
